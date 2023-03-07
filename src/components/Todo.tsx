@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Todo(props: any) {
 
@@ -16,39 +16,53 @@ export default function Todo(props: any) {
     }
 
     const [isEditing, setEditing] = useState(false);
-    const [name, setName] = useState('');
-    const [level, setLevel] = useState<string>();
+    const [newName, setNewName] = useState(props.name);
+    const [newLevel, setNewLevel] = useState(props.level);
 
-    function handleSubmit(e: any) {
-        e.preventDefault();
-        props.addTask(name, level);
-        setName("");
-        setLevel("0");
-    }
+    // useEffect(() =>{
+    //     console.log(newName);
+    // })
 
     function handleChangeInputEdit(e: any) {
-        setName(e.target.value);
+        setNewName(e.target.value);
     }
 
     const handleChangeEdit = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const value = event.target.value;
-        setLevel(value);
+        setNewLevel(value);
         console.log(value);
     };
+
+    function handleSubmitEdit(e: any) {
+        e.preventDefault();
+        props.editItem(props.id, newName, newLevel);
+        setEditing(false);
+        console.log(newName, newLevel);
+    }
+
+    function handleClickCancelEdit(e: any) {
+        setNewName(props.name);
+        setNewLevel(props.level);
+        setEditing(false);
+        console.log(props.name, props.level);
+    }
 
     const editingTemplate = (
         <><td className="text-center">{props.index}</td>
             <td><input
+                id={props.id}
                 type="text"
                 className="form-control"
-                value={props.name}
+                value={newName}
                 onChange={handleChangeInputEdit}
             />
             </td>
             <td className="text-center">
                 <select
+                    id={props.id}
                     className="form-control"
-                    onChange={props.handleChangeForm}
+                    value={newLevel}
+                    onChange={handleChangeEdit}
                 >
                     <option value="0">Low</option>
                     <option value="1">Medium</option>
@@ -59,13 +73,12 @@ export default function Todo(props: any) {
                 <button
                     type="button"
                     className="btn btn-default btn-sm"
-                    onClick={() => setEditing(false)}
+                    onClick={handleClickCancelEdit}
                 >
                     Cancel
                 </button>
-                <button type="button" className="btn btn-success btn-sm">Save</button>
+                <button type="button" className="btn btn-success btn-sm" onClick={handleSubmitEdit}>Save</button>
             </td></>
-
     );
     const viewTemplate = (
 
@@ -90,7 +103,8 @@ export default function Todo(props: any) {
 
     );
 
-
-    return <tr>{isEditing ? editingTemplate : viewTemplate}</tr>;
+    return (
+        <tr>{isEditing ? editingTemplate : viewTemplate}</tr>
+    )
 
 }

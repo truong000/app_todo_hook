@@ -1,14 +1,27 @@
+import { Console } from 'console';
 import { nanoid } from 'nanoid';
 import React, { useState } from 'react';
 import FilterButton from './components/FilterButton';
 import Form from './components/Form';
 import Todo from './components/Todo';
 
+
+const FILTER_MAP = {
+  All: () => true,
+  High: (task: any) => task.level === 2,
+  Medium: (task: any) => task.level === 1,
+  Low: (task: any) => task.level === 0
+};
+
+
 function App(props: any) {
 
   const [tasks, setItems] = useState(props.tasks);
-  // const [index] = useState(1);
-
+  const [filter, setFilter] = useState('All');
+  const FILTER_NAMES = Object.keys(FILTER_MAP);
+  const filterList = FILTER_NAMES.map((level) => (
+    <FilterButton key={level} level={level} />
+  ));
 
   function addItem(name: any, level: any) {
     const newTask = { id: `todo-${nanoid()}`, name, level: level };
@@ -22,10 +35,10 @@ function App(props: any) {
     console.log(remainingItems);
   }
 
-  function editItem(id: any, newName: any, newLevel: any){
+  function editItem(id: any, newName: any, newLevel: any) {
     const editItemList = tasks.map((task: any) => {
-      if(id === task.id){
-        return {...task, name: newName, level: newLevel}
+      if (id === task.id) {
+        return { ...task, name: newName, level: newLevel }
       }
       return task;
     });
@@ -59,7 +72,7 @@ function App(props: any) {
           </div>
         </div>
         <div className="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-          <FilterButton />
+          {/* {filterList} */}
         </div>
         <div className="col-xs-5 col-sm-5 col-md-5 col-lg-5">
           <button type="button" className="btn btn-info btn-block marginB10">Add Item</button>
@@ -67,7 +80,9 @@ function App(props: any) {
       </div>
       <div className="row marginB10">
         <div className="col-md-offset-7 col-md-5">
-          <Form addTask={addItem} />
+          <Form
+            addTask={addItem}
+          />
         </div>
       </div>
       <div className="panel panel-success">
@@ -75,7 +90,7 @@ function App(props: any) {
         <table className="table table-hover ">
           <thead>
             <tr>
-              <th className="text-center">#</th>
+              <th className="text-center">STT</th>
               <th>Name</th>
               <th className="text-center">Level</th>
               <th>Action</th>

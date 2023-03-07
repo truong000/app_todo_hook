@@ -7,11 +7,11 @@ function FilterButton(props: any) {
             Sort by <span className="caret"></span>
         </button>
         <ul className="dropdown-menu">
-            {/* <li><a role="button">Name ASC</a></li>
+            <li><a role="button">Name ASC</a></li>
             <li><a role="button">Name DESC</a></li>
             <li role="separator" className="divider"></li>
             <li><a role="button">Level ASC</a></li>
-            <li><a role="button">Level DESC</a></li> */}
+            <li><a role="button">Level DESC</a></li>
         </ul>
         <span className="label label-success label-medium">NAME - DESC</span>
     </div>
