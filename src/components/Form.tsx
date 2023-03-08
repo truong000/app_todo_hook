@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 
 function Form(props: any) {
 
@@ -12,7 +12,7 @@ function Form(props: any) {
         setLevel("0");
     }
 
-    function handleChangeInput(e:any) {
+    function handleChangeInput(e: any) {
         setName(e.target.value);
     }
 
@@ -22,36 +22,36 @@ function Form(props: any) {
         console.log(value);
     };
 
-    function handleFormClickCancel(){
+    function handleFormClickCancel() {
         setName('');
         setLevel("0");
     }
 
     return (
         <form onSubmit={handleSubmit} className="form-inline">
-        <div className="form-group">
-            <input 
-                type="text" 
-                className="form-control" 
-                placeholder="Item Name"
-                value={name}
-                onChange={handleChangeInput}
-            />    
-        </div>
-        <div className="form-group">
-            <select 
-                value={level}
-                className="form-control"
-                onChange={handleChangeForm}
+            <div className="form-group">
+                <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Item Name"
+                    value={name}
+                    onChange={handleChangeInput}
+                />
+            </div>
+            <div className="form-group">
+                <select
+                    value={level}
+                    className="form-control"
+                    onChange={handleChangeForm}
                 >
                     <option value="0">Low</option>
                     <option value="1">Medium</option>
                     <option value="2">High</option>
-            </select>
-        </div>
-        <button type="submit" className="btn btn-primary">Submit</button>
-        <button type="button" className="btn btn-default" onClick={handleFormClickCancel}>Cancel</button>
-    </form>
+                </select>
+            </div>
+            <button type="submit" className="btn btn-primary">Submit</button>
+            <button type="button" className="btn btn-default" onClick={handleFormClickCancel}>Cancel</button>
+        </form>
     )
 
 }

@@ -1,27 +1,17 @@
-import { Console } from 'console';
 import { nanoid } from 'nanoid';
-import React, { useState } from 'react';
-import FilterButton from './components/FilterButton';
+import React, { useEffect, useState } from 'react';
 import Form from './components/Form';
 import Todo from './components/Todo';
-
-
-const FILTER_MAP = {
-  All: () => true,
-  High: (task: any) => task.level === 2,
-  Medium: (task: any) => task.level === 1,
-  Low: (task: any) => task.level === 0
-};
 
 
 function App(props: any) {
 
   const [tasks, setItems] = useState(props.tasks);
-  const [filter, setFilter] = useState('All');
-  const FILTER_NAMES = Object.keys(FILTER_MAP);
-  const filterList = FILTER_NAMES.map((level) => (
-    <FilterButton key={level} level={level} />
-  ));
+  const [showForm, setShowForm] = useState(false);
+
+  useEffect(() =>{
+    
+  })
 
   function addItem(name: any, level: any) {
     const newTask = { id: `todo-${nanoid()}`, name, level: level };
@@ -45,17 +35,19 @@ function App(props: any) {
     setItems(editItemList);
   }
 
-  const taskList = tasks.map((task: any, index: number) => (
+  const taskList = tasks.map((task: any, index: number) => {
+    return    (    
     <Todo
       index={index + 1}
       id={task.id}
       name={task.name}
       level={task.level}
+      content={task.content}
       key={task.id}
       deleteItem={deleteItem}
       editItem={editItem}
     />
-  ));
+  )})
 
   return (
     <div className="container">
@@ -64,25 +56,25 @@ function App(props: any) {
       </div>
       <div className="row">
         <div className="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-          <div className="input-group">
+          {/* <div className="input-group">
             <input type="text" className="form-control" placeholder="Search item name" />
             <span className="input-group-btn">
               <button className="btn btn-info" type="button">Clear</button>
             </span>
-          </div>
+          </div> */}
         </div>
         <div className="col-xs-3 col-sm-3 col-md-3 col-lg-3">
           {/* {filterList} */}
         </div>
         <div className="col-xs-5 col-sm-5 col-md-5 col-lg-5">
-          <button type="button" className="btn btn-info btn-block marginB10">Add Item</button>
+          <button type="button" className="btn btn-info btn-block marginB10" onClick={() => setShowForm(!showForm)}>{(showForm) ? 'Close Item' : 'Add Item'}</button>
         </div>
       </div>
       <div className="row marginB10">
         <div className="col-md-offset-7 col-md-5">
-          <Form
+          {showForm && <Form
             addTask={addItem}
-          />
+          />}
         </div>
       </div>
       <div className="panel panel-success">
